@@ -1,5 +1,5 @@
 import React, { useEffect} from "react"
-import { getEvents } from "../../managers/EventManager.js"
+import { deleteEvent, getEvents } from "../../managers/EventManager.js"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
@@ -25,6 +25,10 @@ export const EventList = (props) => {
                         <div className="game__description">Description:</div> 
                         <div>{event.description}</div>
                         <div className="game__date">The game will be on {event.date} at {event.time}.</div>
+                        <button onClick={() => navigate(`/events/update/${event.id}`)}>✏️</button>
+                        <button onClick={() => {deleteEvent(event.id)
+                            .then(()=>getEvents())
+                            .then(setEvents)}} >❌</button>
                     </section>
                 })
             }

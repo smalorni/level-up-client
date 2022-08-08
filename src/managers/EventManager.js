@@ -19,3 +19,33 @@ export const createEvent = (event) => {
     })
         .then(response => response.json())
 }
+
+/* use backticks when string interpolation is being used */
+export const updateEvent = (event, eventId) => {
+    return fetch(`http://localhost:8000/events/${eventId}`, {
+        method: "PUT",
+        headers: {
+            "Authorization": `Token ${localStorage.getItem("lu_token")}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(event)
+    })
+}
+
+export const getSingleEvent = (eventId) => {
+    return fetch(`http://localhost:8000/events/${eventId}`, {
+        headers: {
+            "Authorization": `Token ${localStorage.getItem("lu_token")}`
+        }
+     })
+        .then(response => response.json())
+}
+
+export const deleteEvent = (eventId) => {
+    return fetch(`http://localhost:8000/events/${eventId}`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Token ${localStorage.getItem("lu_token")}`
+        }
+    })
+}
