@@ -1,5 +1,5 @@
 import React, { useEffect} from "react"
-import { deleteEvent, getEvents } from "../../managers/EventManager.js"
+import { deleteEvent, getEvents, leaveEvent, joinEvent } from "../../managers/EventManager.js"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
@@ -10,7 +10,7 @@ export const EventList = (props) => {
     useEffect(() => {
         getEvents().then(data => setEvents(data))
     }, [])
-
+    /* JOIN LEAVE SECTION -> TRUE MUST BE FIRST, THEN FALSE SECOND, PER SERVER SET UP */
     return (
         <article className="events">
             <button className="btn btn-2 btn-sep icon-create"
@@ -27,8 +27,16 @@ export const EventList = (props) => {
                         <div className="game__date">The game will be on {event.date} at {event.time}.</div>
                         <button onClick={() => navigate(`/events/update/${event.id}`)}>✏️</button>
                         <button onClick={() => {deleteEvent(event.id)
-                            .then(()=>getEvents())
+                            .then(()=> getEvents())
                             .then(setEvents)}} >❌</button>
+                    {
+                        event.joined ?
+                        <button onClick= {() => {leaveEvent(event.id)
+                            .then(()=> getEvents().then(setEvents))}}>Leave Event</button>
+                        :
+                        <button onClick= {() => {joinEvent(event.id)
+                            .then(()=> getEvents().then(setEvents))}}>Join Event</button>
+                        }
                     </section>
                 })
             }
